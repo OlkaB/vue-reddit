@@ -12,6 +12,7 @@
             elevation="2"
             max-width="400"
             type="info"
+            data-cy="alertSearch"
         >
             Start here by adding subreddits
         </v-alert>

@@ -18,7 +18,10 @@
                 <div>
                     <div class="d-flex justify-space-between">
                         <div class="overline font-weight-thin">
-                            <span class="mb-2">
+                            <span
+                                class="mb-2"
+                                data-cy="subredditName"
+                            >
                                 {{ post.data.subreddit }}
                             </span>
                             <br>

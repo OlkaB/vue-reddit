@@ -14,6 +14,8 @@ describe('My First Test', () => {
 
         cy.get('[data-cy="removeSubreddit"]').click({ multiple: true })
 
+        cy.get('[data-cy="alertSearch"]').should('be.visible')
+
         cy.get('[data-cy="post"]')
             .its('length')
             .should('be.eq', 0)
@@ -33,6 +35,6 @@ describe('My First Test', () => {
             .its('length')
             .should('be.gt', 0)
 
-        cy.get('[data-cy="post"]').contains(subredditName)
+        cy.get('[data-cy="post"] [data-cy="subredditName"]').contains(subredditName)
     })
 })
