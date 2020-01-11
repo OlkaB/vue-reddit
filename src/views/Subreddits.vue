@@ -3,22 +3,45 @@
         <v-row>
             <v-col>
                 <v-select
-                    v-model="listingTypeFilter"
-                    :items="listingTypes"
+                    v-model="postTypeFilter"
+                    :items="arePostsAvailable ? listingTypes : []"
                     label="Filter by type"
                 />
             </v-col>
             <v-col>
                 <v-select
-                    v-if="subredditsList.length > 1"
                     v-model="themeFilter"
-                    :items="subredditsListWithAll"
+                    :items="arePostsAvailable ? subredditsList : []"
                     label="Filter by subreddit"
                 />
             </v-col>
         </v-row>
 
         <v-row>
+            <v-col v-if="postsToShow.length === 0 && !isPostsLoading">
+                <v-alert
+                    v-if="posts.error"
+                    border="left"
+                    class="mx-auto mt-12"
+                    color="red accent-4"
+                    elevation="2"
+                    max-width="400"
+                    type="error"
+                >
+                    {{ posts.error }}
+                </v-alert>
+
+                <v-alert
+                    border="left"
+                    class="mx-auto mt-12"
+                    color="deep-purple accent-4"
+                    elevation="2"
+                    max-width="400"
+                    type="info"
+                >
+                    No posts available
+                </v-alert>
+            </v-col>
             <v-col
                 v-for="(post, index) in postsToShow"
                 :key="index"
@@ -29,6 +52,30 @@
                 />
             </v-col>
         </v-row>
+
+        <v-dialog
+            v-if="isModalOpen"
+            v-model="isModalOpen"
+            hide-overlay
+            persistent
+            width="300"
+        >
+            <v-card
+                color="primary"
+                dark
+            >
+                <v-card-text class="pt-3">
+                    Loading posts... Please wait.
+                </v-card-text>
+                <v-card-text>
+                    <v-progress-linear
+                        indeterminate
+                        color="white"
+                        class="mb-0"
+                    />
+                </v-card-text>
+            </v-card>
+        </v-dialog>
     </div>
 </template>
 <script>
@@ -43,15 +90,22 @@ export default {
         AppSubredditsPost
     },
     data: () => ({
-        listingTypeFilter: 'new',
-        themeFilter: 'all'
+        postTypeFilter: null,
+        themeFilter: 'all',
+        isModalOpen: false
     }),
     computed: {
         ...mapGetters([
-            'posts'
+            'isPostsLoading',
+            'posts',
+            'postType',
+            'userSubreddits'
         ]),
         listingTypes () {
             return subredditListingTypes
+        },
+        arePostsAvailable() {
+            return this.posts.data.length > 0
         },
         postsToShow () {
             return (
@@ -61,30 +115,30 @@ export default {
             )
         },
         subredditsList () {
-            return [ ...new Set(this.posts.data.map(post => post.data.subreddit)) ]
-        },
-        subredditsListWithAll () {
-            return [ ...this.subredditsList, 'all' ].sort()
+            return (
+                this.arePostsAvailable ?
+                    [ ...this.userSubreddits, 'all' ].sort() :
+                    []
+            )
         }
     },
     watch: {
-        listingTypeFilter(type) {
-            this.getPosts({
-                subredditsArray: this.subredditsList,
-                postType: type
-            })
+        isPostsLoading(isPostsLoading) {
+            this.isModalOpen = isPostsLoading
+        },
+        postTypeFilter(postType) {
+            this.setSubredditsPostType(postType)
+            this.getSubreddits({})
         }
     },
     mounted() {
-        // TODO UNCOMMENT
-        this.getPosts({
-            subredditsArray: [ 'pics', 'gifs', 'todayilearned' ],
-            postType: 'top'
-        })
+        this.getSubreddits({})
+        this.postTypeFilter = this.postType
     },
     methods: {
         ...mapActions([
-            'getPosts'
+            'getSubreddits',
+            'setSubredditsPostType'
         ])
     }
 }

@@ -17,12 +17,29 @@
             <v-card-text class="d-flex flex-column justify-space-between card__content">
                 <div>
                     <div class="d-flex justify-space-between">
-                        <div>
-                            <small class="d-block mb-2 overline font-weight-thin">
+                        <div class="overline font-weight-thin">
+                            <span class="mb-2">
                                 {{ post.data.subreddit }}
-                            </small>
-
-                            <span>{{ post.data.created | dateFromUnixTime }}</span>
+                            </span>
+                            <br>
+                            <small>{{ post.data.created | dateFromUnixTime }}</small>
+                            <div class="mt-1">
+                                <v-icon
+                                    class="mr-1"
+                                    size="12"
+                                >
+                                    fa fa-thumbs-up
+                                </v-icon>
+                                <span class="subheading mr-2">{{ post.data.ups }}</span>
+                                <span class="mr-2">·</span>
+                                <v-icon
+                                    class="mr-1"
+                                    size="12"
+                                >
+                                    fa fa-award
+                                </v-icon>
+                                <span class="subheading">{{ post.data.total_awards_received }}</span>
+                            </div>
                         </div>
 
                         <div>
@@ -53,31 +70,12 @@
 
                 <div>
                     <v-divider class="mb-2" />
-                    <div class="d-flex justify-space-between align-center">
-                        <span>
-                            <v-icon
-                                size="12"
-                            >fas fa-user-edit</v-icon>
-                            {{ post.data.author }}
-                        </span>
-                        <div>
-                            <v-icon
-                                class="mr-1"
-                                size="12"
-                            >
-                                fa fa-thumbs-up
-                            </v-icon>
-                            <span class="subheading mr-2">{{ post.data.ups }}</span>
-                            <span class="mr-2">·</span>
-                            <v-icon
-                                class="mr-1"
-                                size="12"
-                            >
-                                fa fa-award
-                            </v-icon>
-                            <span class="subheading">{{ post.data.total_awards_received }}</span>
-                        </div>
-                    </div>
+                    <span>
+                        <v-icon
+                            size="12"
+                        >fas fa-user-edit</v-icon>
+                        {{ post.data.author }}
+                    </span>
                 </div>
             </v-card-text>
         </v-card>

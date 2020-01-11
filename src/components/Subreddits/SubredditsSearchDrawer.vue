@@ -1,32 +1,61 @@
 <template>
     <v-navigation-drawer
-        v-model="isDrawerOpened"
+        v-model="isOpened"
         app
         clipped
     >
-        <v-text-field
-            v-model="searchQuery"
-            placeholder="vue tips"
-            :append-icon="searchQuery ? 'fa fa-times' : ''"
-            prepend-icon="fa fa-search"
-            label="Search subreddits"
-            @click:append="searchQuery = null"
-        />
+        <v-alert
+            v-if="userSubreddits.length === 0"
+            border="left"
+            class="mx-auto"
+            color="deep-purple accent-4"
+            elevation="2"
+            max-width="400"
+            type="info"
+        >
+            Start here by adding subreddits
+        </v-alert>
+
         <v-list dense>
-            <v-list-item link>
-                <v-list-item-action>
-                    <v-icon>fa fa-search</v-icon>
+            <v-list-item>
+                <v-list-item-action class="mr-2">
+                    <v-icon
+                        size="16"
+                        @click="handleAddSubreddit"
+                    >
+                        fa fa-search
+                    </v-icon>
                 </v-list-item-action>
                 <v-list-item-content>
-                    <v-list-item-title>Dashboard</v-list-item-title>
+                    <v-text-field
+                        v-model="searchQuery"
+                        placeholder="vue"
+                        :append-icon="searchQuery ? 'fa fa-times' : ''"
+                        label="Add subreddit"
+                        @click:append="searchQuery = null"
+                        @keyup.enter="handleAddSubreddit"
+                    />
                 </v-list-item-content>
             </v-list-item>
-            <v-list-item link>
-                <v-list-item-action>
-                    <v-icon>fa fa-times</v-icon>
-                </v-list-item-action>
+
+            <v-divider />
+
+            <v-list-item
+                v-for="(subredit, index) in userSubreddits"
+                :key="index"
+            >
                 <v-list-item-content>
-                    <v-list-item-title>Settings</v-list-item-title>
+                    <v-chip class="chip--full">
+                        {{ subredit }}
+                        <v-icon
+                            class="mr-0"
+                            right
+                            size="16"
+                            @click="handleRemoveSubreddit(subredit)"
+                        >
+                            fa fa-times
+                        </v-icon>
+                    </v-chip>
                 </v-list-item-content>
             </v-list-item>
         </v-list>
@@ -34,6 +63,8 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
+
 export default {
     props: {
         isDrawerOpened: {
@@ -42,17 +73,48 @@ export default {
         }
     },
     data: () => ({
-        isOpened: true,
+        // isOpened: true,
         searchQuery: null
     }),
+    computed: {
+        ...mapGetters([
+            'userSubreddits'
+        ]),
+        isOpened: {
+            get: function() {
+                return this.isDrawerOpened
+            },
+            set: function(data) {
+                this.$emit('toggleIsDrawerOpened', data)
+            }
+        }
+    },
     watch: {
-        isOpened(isOpened) {
-            this.$emit('toggleIsDrawerOpened', isOpened)
+        userSubreddits() {
+            this.getSubreddits({})
+        }
+    },
+    methods: {
+        ...mapActions([
+            'getSubreddits',
+            'setUserSubreddits'
+        ]),
+        handleAddSubreddit() {
+            // split reddits added with comma and/or semicolon
+            const subreddits = this.searchQuery.split(/[;,]+/)
+            this.setUserSubreddits([ ...this.userSubreddits, ...subreddits ])
+            this.searchQuery = null
+        },
+        handleRemoveSubreddit(subreddit) {
+            this.setUserSubreddits([ ...this.userSubreddits.filter(item => item !== subreddit) ])
         }
     }
 }
 </script>
 
-<style>
-
+<style lang="sass">
+// leave unscoped
+.chip--full .v-chip__content
+    justify-content: space-between
+    width: 100%
 </style>

@@ -3,13 +3,13 @@
         <component
             :is="drawerComponent"
             :is-drawer-opened="isDrawerOpened"
-            @toggleIsDrawerOpened="isDrawerOpened = !isDrawerOpened"
+            @toggleIsDrawerOpened="handleIsDrawerOpened"
         />
         <v-app-bar
             app
             clipped-left
         >
-            <v-app-bar-nav-icon @click.stop="isDrawerOpened = !isDrawerOpened" />
+            <v-app-bar-nav-icon @click.stop="handleIsDrawerOpened(!isDrawerOpened)" />
             <v-toolbar-title>Your subreddits</v-toolbar-title>
         </v-app-bar>
     </div>
@@ -33,6 +33,11 @@ export default {
             default:
                 return null
             }
+        }
+    },
+    methods: {
+        handleIsDrawerOpened(isOpened) {
+            this.isDrawerOpened = isOpened
         }
     }
 }
