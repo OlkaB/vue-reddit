@@ -134,7 +134,6 @@ export default {
         }
     },
     mounted() {
-        this.getSubreddits({})
         this.postTypeFilter = this.postType
     },
     methods: {
