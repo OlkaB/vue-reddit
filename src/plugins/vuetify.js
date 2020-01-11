@@ -1,15 +1,10 @@
 import Vue from 'vue'
-import Vuetify, {
-    VFooter
-} from 'vuetify/lib'
+import Vuetify from 'vuetify/lib'
 import '@fortawesome/fontawesome-free/css/all.css'
 
 Vue.use(Vuetify)
 
 export default new Vuetify({
-    components: {
-        VFooter
-    },
     theme: {
         dark: true,
         options: {

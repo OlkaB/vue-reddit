@@ -4,7 +4,6 @@
 
         <v-content>
             <v-container
-                class="fill-height"
                 fluid
             >
                 <router-view />
