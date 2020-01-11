@@ -12,17 +12,20 @@ describe('My First Test', () => {
             .its('length')
             .should('be.gt', 0)
 
+        // remove any existing subreddits
         cy.get('[data-cy="removeSubreddit"]').click({ multiple: true })
 
+        // check UI
         cy.get('[data-cy="alertSearch"]').should('be.visible')
 
         cy.get('[data-cy="post"]')
-            .its('length')
-            .should('be.eq', 0)
+            .should('not.exist')
     })
 
-    it('Add subreddit', () => {
-        const subredditName = 'vue'
+    it.only('Add subreddit', () => {
+        const subredditName = 'Vue'
+
+        cy.get('[data-cy="removeSubreddit"]').click({ multiple: true })
 
         // add subreddit
         cy.get('[data-cy="addSubreditInput"]')
@@ -35,6 +38,12 @@ describe('My First Test', () => {
             .its('length')
             .should('be.gt', 0)
 
-        cy.get('[data-cy="post"] [data-cy="subredditName"]').contains(subredditName)
+        cy.get('[data-cy="post"] [data-cy="subredditName"]')
+            .first()
+            .invoke('text')
+            .then(text => {
+                expect(text.trim()).to.be.equal(subredditName)
+            })
+
     })
 })
