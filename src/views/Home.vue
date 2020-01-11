@@ -9,6 +9,7 @@
             <router-link
                 to="/subreddits"
                 class="white--text"
+                data-cy="goToSubreddits"
             >
                 Go to subreddits page
             </router-link>

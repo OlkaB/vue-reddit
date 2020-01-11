@@ -8,7 +8,7 @@ const state = {
         error: null
     },
     postType: 'new',
-    userSubreddits: [ 'meme' ]
+    userSubreddits: [ 'vue' ]
 }
 
 // Getters
@@ -25,8 +25,7 @@ const actions = {
         if (state.userSubreddits.length > 0) {
             commit('setIsPostsLoading', true)
 
-            const url = `https://www.reddit.com/r/${state.userSubreddits.join ('+')}/${state.postType}.json`
-            // const url = ''
+            const url = `https://www.reddit.com/r/${state.userSubreddits.join ('+')}/${state.postType}.json?limit=100&count=100`
 
             return $axios.get(url)
                 .then(response => {

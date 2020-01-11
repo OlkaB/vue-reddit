@@ -1,22 +1,29 @@
 describe('My First Test', () => {
-    it('Check if initial subreddits are loaded', () => {
-        cy.visit('/subreddits')
+    beforeEach(() => {
+        cy.visit('/')
+        // cy.get('[data-cy="goToSubreddits"]')
+        cy.get('.v-btn__content [href="/vue-reddit/subreddits"]').click()
         cy.url().should('include', '/subreddits')
+    })
 
-        // check posts are visible
+    it('Remove all subreddits', () => {
+        // check if initial posts are visible
         cy.get('[data-cy="post"]')
             .its('length')
             .should('be.gt', 0)
+
+        cy.get('[data-cy="removeSubreddit"]').click({ multiple: true })
+
+        cy.get('[data-cy="post"]')
+            .its('length')
+            .should('be.eq', 0)
     })
 
     it('Add subreddit', () => {
-        const subredditName = 'gifs'
-
-        cy.visit('/subreddits')
-        cy.url().should('include', '/subreddits')
+        const subredditName = 'vue'
 
         // add subreddit
-        cy.get('data-cy="addSubreditInput"')
+        cy.get('[data-cy="addSubreditInput"]')
             .type(subredditName)
         cy.get('[data-cy="addSubreditIcon"]')
             .click()

@@ -45,6 +45,7 @@
             <v-list-item
                 v-for="(subredit, index) in userSubreddits"
                 :key="index"
+                data-cy="chosenSubreddit"
             >
                 <v-list-item-content>
                     <v-chip class="chip--full">
@@ -53,6 +54,7 @@
                             class="mr-0"
                             right
                             size="16"
+                            data-cy="removeSubreddit"
                             @click="handleRemoveSubreddit(subredit)"
                         >
                             fa fa-times
