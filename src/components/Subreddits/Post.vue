@@ -27,20 +27,23 @@
 
                         <div>
                             <v-img
-                                v-if="thumbnail"
+                                v-if="thumbnail && thumbnail !== 'default'"
                                 :src="thumbnail"
                                 alt="reddit thumb"
                                 class="ml-3"
                                 height="60"
                                 width="60"
                             />
-                            <template v-else>
-                                <v-icon>
+                            <div
+                                v-else
+                                class="card__image-placeholder grey darken-2"
+                            >
+                                <v-icon class="mt-2">
                                     fa fa-image
                                 </v-icon>
-
+                                <br>
                                 <small>no image</small>
-                            </template>
+                            </div>
                         </div>
                     </div>
                     <span class="card__title mt-3">
@@ -91,7 +94,7 @@ export default {
     },
     computed: {
         thumbnail() {
-            return this.post.data.thumbnail || null
+            return this.post.data.thumbnail && this.post.data.thumbnail !== 'default' ? this.post.data.thumbnail : null
         }
     }
 }
@@ -108,5 +111,11 @@ export default {
 
 .card__content
     height: 100%
+
+.card__image-placeholder
+    text-align: center
+    height: 60px
+    opacity: .6
+    width: 60px
 </style>
 

@@ -11,16 +11,13 @@ const state = {
 
 // Getters
 const getters = {
-    posts: state => ({ data: state.response.children, error: null }) // TODO UNCOMMENT  state.posts
+    // posts: state => state.posts
+    posts: state => state.posts ({ data: state.response.children, error: null })
 }
 
 // Actions
 const actions = {
     getPosts ({ commit }, { subredditsArray, postType = 'new', limit = 30, count = 30 }) {
-        console.log('STORE ', {
-            this: this,
-            $axios
-        })
         return $axios.get(`https://www.reddit.com/r/${subredditsArray.join ('+')}/${postType}.json?limit=${limit}&count=${count}`)
             .then(response => {
                 commit('setPosts', {

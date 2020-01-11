@@ -1,25 +1,26 @@
 <template>
     <div>
-        <v-select
-            :items="listingTypes"
-            label="Listing type"
-            value="hot"
-        />
-        <v-select
-            :items="filters"
-            label="Filter"
-        />
-        <v-text-field
-            v-model="searchQuery"
-            placeholder="vue tips"
-            :append-icon="searchQuery ? 'fa fa-times' : ''"
-            prepend-icon="fa fa-search"
-            label="Search subreddits"
-            @click:append="searchQuery = null"
-        />
+        <v-row>
+            <v-col>
+                <v-select
+                    v-model="listingTypeFilter"
+                    :items="listingTypes"
+                    label="Filter by type"
+                />
+            </v-col>
+            <v-col>
+                <v-select
+                    v-if="subredditsList.length > 1"
+                    v-model="themeFilter"
+                    :items="subredditsListWithAll"
+                    label="Filter by subreddit"
+                />
+            </v-col>
+        </v-row>
+
         <v-row>
             <v-col
-                v-for="(post, index) in posts.data"
+                v-for="(post, index) in postsToShow"
                 :key="index"
                 class="post"
             >
@@ -42,8 +43,8 @@ export default {
         AppSubredditsPost
     },
     data: () => ({
-        searchQuery: null,
-        filters: [ 'subredit 1', 'subredit 21', 'subredit 13' ]
+        listingTypeFilter: 'new',
+        themeFilter: 'all'
     }),
     computed: {
         ...mapGetters([
@@ -51,22 +52,35 @@ export default {
         ]),
         listingTypes () {
             return subredditListingTypes
+        },
+        postsToShow () {
+            return (
+                this.themeFilter === 'all' ?
+                    this.posts.data :
+                    this.posts.data.filter(post => post.data.subreddit === this.themeFilter)
+            )
+        },
+        subredditsList () {
+            return [ ...new Set(this.posts.data.map(post => post.data.subreddit)) ]
+        },
+        subredditsListWithAll () {
+            return [ ...this.subredditsList, 'all' ].sort()
         }
     },
     watch: {
-        posts: {
-            immediate: true,
-            handler (posts) {
-                console.log('WATCH ', { posts })
-            }
+        listingTypeFilter(type) {
+            this.getPosts({
+                subredditsArray: this.subredditsList,
+                postType: type
+            })
         }
     },
     mounted() {
         // TODO UNCOMMENT
-        // this.getPosts({
-        //     subredditsArray: [ 'pics', 'gifs', 'todayilearned' ],
-        //     postType: 'top'
-        // })
+        this.getPosts({
+            subredditsArray: [ 'pics', 'gifs', 'todayilearned' ],
+            postType: 'top'
+        })
     },
     methods: {
         ...mapActions([
