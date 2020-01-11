@@ -1,8 +1,9 @@
 <template>
     <div>
         <v-select
-            :items="sortTypes"
-            label="Sort"
+            :items="listingTypes"
+            label="Listing type"
+            value="hot"
         />
         <v-select
             :items="filters"
@@ -20,6 +21,7 @@
             <v-col
                 v-for="(post, index) in posts.data"
                 :key="index"
+                class="post"
             >
                 <app-subreddits-post
                     :post="post"
@@ -30,6 +32,7 @@
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import { subredditListingTypes } from '@/enums/subreddit.js'
 
 // Components
 import AppSubredditsPost from '@/components/Subreddits/Post.vue'
@@ -40,24 +43,30 @@ export default {
     },
     data: () => ({
         searchQuery: null,
-        sortTypes: [ 'hot', 'recent' ],
         filters: [ 'subredit 1', 'subredit 21', 'subredit 13' ]
     }),
     computed: {
         ...mapGetters([
             'posts'
-        ])
+        ]),
+        listingTypes () {
+            return subredditListingTypes
+        }
     },
     watch: {
-        posts(posts) {
-            console.log('WATCH ', { posts })
+        posts: {
+            immediate: true,
+            handler (posts) {
+                console.log('WATCH ', { posts })
+            }
         }
     },
     mounted() {
-        this.getPosts({
-            subredditsArray: [ 'pics', 'gifs', 'todayilearned' ],
-            postType: 'top'
-        })
+        // TODO UNCOMMENT
+        // this.getPosts({
+        //     subredditsArray: [ 'pics', 'gifs', 'todayilearned' ],
+        //     postType: 'top'
+        // })
     },
     methods: {
         ...mapActions([
@@ -66,3 +75,8 @@ export default {
     }
 }
 </script>
+
+<style lang="sass" scoped>
+.post
+    width: 260px
+</style>

@@ -1,0 +1,1 @@
+export const subredditListingTypes = [ 'controversial', 'best', 'hot', 'new', 'random', 'rising', 'top' ]

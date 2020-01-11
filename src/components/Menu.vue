@@ -3,7 +3,7 @@
         <v-navigation-drawer
             v-model="drawer"
             app
-            overflow
+            clipped
         >
             <v-list dense>
                 <v-list-item link>
@@ -30,7 +30,7 @@
             clipped-left
         >
             <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-            <v-toolbar-title>Application</v-toolbar-title>
+            <v-toolbar-title>Your subreddits</v-toolbar-title>
         </v-app-bar>
     </div>
 </template>

@@ -4,8 +4,10 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
 import './plugins/axios'
+import { useFilters } from './filters/filters'
 
 Vue.config.productionTip = false
+useFilters(Vue)
 
 new Vue({
     router,

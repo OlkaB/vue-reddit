@@ -1,4 +1,4 @@
 import Vue from 'vue'
-import { $axios } from '@/configs/axios'
+import { $axios } from '@/services/axios'
 
 Vue.prototype.$axios = $axios

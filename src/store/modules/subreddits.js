@@ -1,4 +1,4 @@
-import { $axios } from '@/configs/axios'
+import { $axios } from '@/services/axios'
 
 // Initial state
 const state = {
@@ -11,7 +11,7 @@ const state = {
 
 // Getters
 const getters = {
-    posts: state => state.posts
+    posts: state => ({ data: state.response.children, error: null }) // TODO UNCOMMENT  state.posts
 }
 
 // Actions
