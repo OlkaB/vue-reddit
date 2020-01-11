@@ -1,21 +1,17 @@
 <template>
     <div class="home">
-        <img
-            alt="Vue logo"
-            src="../assets/logo.png"
+        <p class="my-5 grey--text">
+            @Page placeholder
+        </p>
+        <v-btn
+            color="primary"
         >
-        <HelloWorld msg="Welcome to Your Vue.js App" />
+            <router-link
+                to="/subreddits"
+                class="white--text"
+            >
+                Go to subreddits page
+            </router-link>
+        </v-btn>
     </div>
 </template>
-
-<script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
-export default {
-    name: 'Home',
-    components: {
-        HelloWorld
-    }
-}
-</script>

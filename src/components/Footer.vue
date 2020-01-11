@@ -3,6 +3,6 @@
         app
         inset
     >
-        <span>&copy; CompanyName | footer placeholder</span>
+        <span class="grey--text">&copy; CompanyName | footer placeholder</span>
     </v-footer>
 </template>

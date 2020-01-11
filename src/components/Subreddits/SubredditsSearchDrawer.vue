@@ -21,6 +21,7 @@
                 <v-list-item-action class="mr-2">
                     <v-icon
                         size="16"
+                        data-cy="addSubreditIcon"
                         @click="handleAddSubreddit"
                     >
                         fa fa-search
@@ -32,6 +33,7 @@
                         placeholder="vue"
                         :append-icon="searchQuery ? 'fa fa-times' : ''"
                         label="Add subreddit"
+                        data-cy="addSubreditInput"
                         @click:append="searchQuery = null"
                         @keyup.enter="handleAddSubreddit"
                     />

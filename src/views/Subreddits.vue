@@ -13,6 +13,7 @@
                     v-model="themeFilter"
                     :items="arePostsAvailable ? subredditsList : []"
                     label="Filter by subreddit"
+                    data-cy="themeFilter"
                 />
             </v-col>
         </v-row>
@@ -46,6 +47,7 @@
                 v-for="(post, index) in postsToShow"
                 :key="index"
                 class="post"
+                data-cy="post"
             >
                 <app-subreddits-post
                     :post="post"

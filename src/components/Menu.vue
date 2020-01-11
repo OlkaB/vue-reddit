@@ -10,7 +10,28 @@
             clipped-left
         >
             <v-app-bar-nav-icon @click.stop="handleIsDrawerOpened(!isDrawerOpened)" />
-            <v-toolbar-title>Your subreddits</v-toolbar-title>
+
+            <router-link
+                to="/subreddits"
+                class="d-flex white--text text--link"
+            >
+                <v-avatar
+                    size="32px"
+                    item
+                    class="ml-12"
+                >
+                    <v-img
+                        src="https://cdn.vuetifyjs.com/images/logos/logo.svg"
+                        alt="Vuetify"
+                    />
+                </v-avatar>
+                <v-toolbar-title>
+                    Subreddits
+                </v-toolbar-title>
+            </router-link>
+
+            <v-spacer />
+            <span class="grey--text">menu placeholder</span>
         </v-app-bar>
     </div>
 </template>
