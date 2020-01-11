@@ -11,7 +11,6 @@
             ripple
             target="blank"
             class="mx-auto pa-2"
-            min-width="260"
             height="260"
         >
             <v-card-text class="d-flex flex-column justify-space-between card__content">
@@ -67,7 +66,7 @@
                         </div>
                     </div>
                     <span class="card__title mt-3">
-                        {{ post.data.title }}
+                        {{ post.data.title | DOMParsed }}
                     </span>
                 </div>
 

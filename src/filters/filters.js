@@ -6,6 +6,19 @@ export const dateFromUnixTime = (date) => {
     return format(fromUnixTime(date), 'yyyy-MM-dd')
 }
 
+export const DOMParsed = (stringWithEntities) => {
+    if (!stringWithEntities || !DOMParser) return stringWithEntities
+
+    const parser = new DOMParser
+    const dom = parser.parseFromString(
+        `<!doctype html><body>${stringWithEntities}`,
+        'text/html')
+    const decodedString = dom.body.textContent
+
+    return decodedString
+}
+
 export function useFilters (Vue) {
     Vue.filter('dateFromUnixTime', dateFromUnixTime)
+    Vue.filter('DOMParsed', DOMParsed)
 }

@@ -1,19 +1,31 @@
 <template>
     <div>
         <v-row>
-            <v-col>
+            <v-col
+                cols="12"
+                lg="3"
+                md="4"
+                sm="12"
+            >
                 <v-select
                     v-model="postTypeFilter"
                     :items="arePostsAvailable ? listingTypes : []"
                     label="Filter by type"
+                    class="select"
                 />
             </v-col>
-            <v-col>
+            <v-col
+                cols="12"
+                lg="3"
+                md="4"
+                sm="12"
+            >
                 <v-select
                     v-model="themeFilter"
                     :items="arePostsAvailable ? subredditsList : []"
                     label="Filter by subreddit"
                     data-cy="themeFilter"
+                    class="select"
                 />
             </v-col>
         </v-row>
@@ -48,6 +60,10 @@
                 :key="index"
                 class="post"
                 data-cy="post"
+                cols="12"
+                lg="3"
+                md="4"
+                sm="6"
             >
                 <app-subreddits-post
                     :post="post"
@@ -146,6 +162,4 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-.post
-    width: 260px
 </style>
